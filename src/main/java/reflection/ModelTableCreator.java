@@ -3,7 +3,6 @@ package reflection;
 import annotation.postgresql.Id;
 import annotation.postgresql.Model;
 import org.reflections.Reflections;
-
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.Statement;

@@ -1,7 +1,6 @@
 package handler;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import model.User;
@@ -12,7 +11,6 @@ import security.JwtUtil;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 
 public class LoginHandler implements HttpHandler {
@@ -25,7 +23,7 @@ public class LoginHandler implements HttpHandler {
             }
             String body = new String(exchange.getRequestBody().readAllBytes());
             System.out.println(body);
-            Map<String, String> form = parseJsonToMap(body);
+            Map<String, String> form = JsonParser.jsonToMap(body);
             String username = form.get("username");
             String password = form.get("password");
             System.out.println(username);
@@ -45,15 +43,6 @@ public class LoginHandler implements HttpHandler {
         }
     }
 
-    private Map<String, String> parseJsonToMap(String json) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.readValue(json, Map.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new HashMap<>();
-        }
-    }
 
     private void sendJson(HttpExchange exchange, int status, String body) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "application/json");
