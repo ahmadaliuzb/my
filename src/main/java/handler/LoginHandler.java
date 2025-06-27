@@ -22,12 +22,9 @@ public class LoginHandler implements HttpHandler {
                 return;
             }
             String body = new String(exchange.getRequestBody().readAllBytes());
-            System.out.println(body);
             Map<String, String> form = JsonParser.jsonToMap(body);
             String username = form.get("username");
             String password = form.get("password");
-            System.out.println(username);
-            System.out.println(password);
             User user = UserRepository.findByUsername(username);
             if (user != null && user.password.equals(password)) {
                 String token = JwtUtil.generateToken(user.username);
